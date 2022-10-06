@@ -22,8 +22,13 @@ public class BaseTest {
 
     @BeforeMethod
     public void setup() {
-       Configuration.baseUrl = System.getProperty("QASE_URL", PropertyReader.getProperty("qase.url"));
+        Configuration.baseUrl = System.getProperty("QASE_URL", PropertyReader.getProperty("qase.url"));
 
+        loginPage = new LoginPage();
+        projectPage = new ProjectPage();
+        createProjectPage = new CreateProjectPage();
+        updateProjectPage = new UpdateProjectPage();
+        deleteProjectPage = new DeleteProjectPage();
 
         Configuration.baseUrl = PropertyReader.getProperty("qase.url");
         user = PropertyReader.getProperty("qase.user");
@@ -31,11 +36,7 @@ public class BaseTest {
         Configuration.browser = "chrome";
         Configuration.headless = true;
         Configuration.timeout = 10000;
-        // Configuration.clickViaJs = true;
-        // Configuration.fastSetValue = true;
 
-        loginPage = new LoginPage();
-        projectPage = new ProjectPage();
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).
                 savePageSource(false));

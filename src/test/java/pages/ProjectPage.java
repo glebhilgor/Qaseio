@@ -1,22 +1,28 @@
 package pages;
 
 import com.codeborne.selenide.Condition;
+import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class ProjectPage {
+
+    private final By CREATESUITE_BUTTON = By.cssSelector("#create-suite-button");
+
     public void isOpened() {
-        $("#createButton").shouldBe(Condition.visible);
+
+        $(CREATESUITE_BUTTON).shouldBe(Condition.visible);
     }
 
-    public void createProject(String projectName, String projectCode, String description) {
-        $("#createButton").click();
-        $("#inputTitle").setValue(projectName);
-        $("#inputCode").setValue(projectCode);
-        $("#inputDescription").setValue(description);
-        $(byXpath("//label[contains(text(), 'Public')]")).click();
-        $(".btn.btn-primary").click();
+    public void isProjectExist(String title) {
+        open("https://app.qase.io/projects");
+        $(byXpath(String.format("//tbody//a[contains(text(), '%s')]", title))).shouldBe(Condition.visible);
     }
+
+    public void projectNotExist(String title) {
+        $(byXpath(String.format("//a[text()='%s']", title))).shouldNotBe(Condition.visible);
+    }
+
 }

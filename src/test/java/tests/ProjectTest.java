@@ -5,8 +5,7 @@ import com.codeborne.selenide.Configuration;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selectors.byXpath;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class ProjectTest extends BaseTest {
 
@@ -15,12 +14,18 @@ public class ProjectTest extends BaseTest {
         loginPage.openPage();
         loginPage.login(user, password);
         projectPage.isOpened();
-        createProjectPage.createProject();
-        updateProjectPage.updateProject();
-        deleteProjectPage.openPage();
-        deleteProjectPage.deleteProject();
+        createProjectPage.createNewProject("test", "testcode", "description");
+        projectPage.isProjectExist(title());
 
+    }
 
+    @Test
+    public void deleteProject() {
+        loginPage.openPage();
+        loginPage.login(user, password);
+        createProjectPage.createNewProject("test1", "Test", "descrr");
+        deleteProjectPage.deleteProject("test1");
+        projectPage.projectNotExist("test1");
     }
 
 }
